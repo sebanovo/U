@@ -59,9 +59,9 @@ namespace U.src
 
             // Draw U
             _u.Bind();
-            Matrix4 transform = Matrix4.CreateRotationY((float)_timer.Elapsed.TotalSeconds);
+            // Matrix4 transform = Matrix4.CreateRotationY((float)_timer.Elapsed.TotalSeconds);
             _u.ShaderProgram.SetInt("texture1", 0)
-                            .SetMat4("transform", transform)
+                            .SetMat4("transform", Matrix4.Identity)
                             .SetMat4("model", Matrix4.Identity)
                             .SetMat4("view", _camera.GetViewMatrix())
                             .SetMat4("projection", _camera.GetProjectionMatrix());
@@ -98,17 +98,17 @@ namespace U.src
             }
             else if (KeyboardState.IsKeyPressed(Keys.D1))
             {
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill);
             }
             else if (KeyboardState.IsKeyPressed(Keys.D2))
             {
                 GL.PointSize(20.0f);
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Point);
+                GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Point);
             }
             else if (KeyboardState.IsKeyPressed(Keys.D3))
             {
                 GL.LineWidth(10.0f);
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
             }
 
 
@@ -116,43 +116,42 @@ namespace U.src
             const float sensitivity = 0.2f;
             if (input.IsKeyDown(Keys.W))
             {
-                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time; // Forward
+                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.S))
             {
-                _camera.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
+                _camera.Position -= _camera.Front * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.A))
             {
-                _camera.Position -= _camera.Right * cameraSpeed * (float)e.Time; // Left
+                _camera.Position -= _camera.Right * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.D))
             {
-                _camera.Position += _camera.Right * cameraSpeed * (float)e.Time; // Right
+                _camera.Position += _camera.Right * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.Space))
             {
-                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time; // Up
+                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.LeftShift))
             {
-                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
+                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time;
             }
 
 
             if (input.IsKeyDown(Keys.Space))
             {
-                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time; // Up
+                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.LeftShift))
             {
-                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
+                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time;
             }
 
-            // Get the mouse state
             var mouse = MouseState;
 
-            if (_firstMove) // This bool variable is initially set to true.
+            if (_firstMove)
             {
                 _lastPosition = new Vector2(mouse.X, mouse.Y);
                 _firstMove = false;
@@ -160,14 +159,12 @@ namespace U.src
 
             else
             {
-                // Calculate the offset of the mouse position
                 var deltaX = mouse.X - _lastPosition.X;
                 var deltaY = mouse.Y - _lastPosition.Y;
                 _lastPosition = new Vector2(mouse.X, mouse.Y);
 
-                // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
                 _camera.Yaw += deltaX * sensitivity;
-                _camera.Pitch -= deltaY * sensitivity; // Reversed since y-coordinates range from bottom to top
+                _camera.Pitch -= deltaY * sensitivity;
             }
         }
 
