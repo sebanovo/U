@@ -73,4 +73,10 @@ public class Shader
         GL.Uniform3(GL.GetUniformLocation(ID, name), ref value);
         return this;
     }
+
+    public Shader SetVec4(string name, Vector4 value)
+    {
+        GL.Uniform4(GL.GetUniformLocation(ID, name), ref value);
+        return this;
+    }
 }
