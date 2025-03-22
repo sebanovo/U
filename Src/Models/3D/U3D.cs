@@ -200,6 +200,13 @@ public class U3D
         TextureImage.Use(TextureUnit.Texture0);
     }
 
+    public void Draw(Vector3 position)
+    {
+        Matrix4 modelMatrix = Matrix4.CreateTranslation(position);
+        ShaderProgram.SetMat4("model", modelMatrix);
+        GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length / 5);
+    }
+
     public void Draw()
     {
         GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length / 5);
