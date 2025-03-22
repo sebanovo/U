@@ -59,11 +59,9 @@ namespace U.src
             // Draw U
 
             _u.Bind();
-            Matrix4 modelMatrix = Matrix4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
-
             _u.ShaderProgram.SetInt("texture1", 0)
                             .SetMat4("transform", Matrix4.Identity)
-                            .SetMat4("model", modelMatrix)
+                            .SetMat4("model", Matrix4.Identity)
                             .SetMat4("view", _camera.GetViewMatrix())
                             .SetMat4("projection", _camera.GetProjectionMatrix());
             _u.Draw();

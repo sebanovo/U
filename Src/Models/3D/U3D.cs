@@ -145,34 +145,6 @@ public class U3D
     {
         ShaderProgram = new Shader("U.Resources.Shaders.uShape.vert", "U.Resources.Shaders.uShape.frag");
         TextureImage = new("U.Resources.Images.container.jpg");
-        CenterVertices();
-    }
-
-    public Vector3 CalculateCentroid()
-    {
-        float sumX = 0, sumY = 0, sumZ = 0;
-        int vertexCount = Vertices.Length / 5;
-
-        for (int i = 0; i < Vertices.Length; i += 5)
-        {
-            sumX += Vertices[i];
-            sumY += Vertices[i + 1];
-            sumZ += Vertices[i + 2];
-        }
-
-        return new Vector3(sumX / (float)vertexCount, sumY / vertexCount, sumZ / vertexCount);
-    }
-
-    void CenterVertices()
-    {
-        Vector3 centroid = CalculateCentroid();
-
-        for (int i = 0; i < Vertices.Length; i += 5)
-        {
-            Vertices[i] -= centroid.X;
-            Vertices[i + 1] -= centroid.Y + 0.15f;
-            Vertices[i + 2] -= centroid.Z;
-        }
     }
 
     public void Load()
@@ -190,7 +162,6 @@ public class U3D
         GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
         GL.EnableVertexAttribArray(1);
     }
-
 
     public void Bind()
     {
