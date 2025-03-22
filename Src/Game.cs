@@ -5,7 +5,6 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Graphics.OpenGL4;
 
-using U3D = U.Src.Models._3D.U;
 using U.Src.Models._2D;
 using U.Src.Models._3D;
 using U.Src.Utils;
@@ -14,7 +13,7 @@ using U.Src.Utils;
 
 namespace U.src
 {
-    public class App(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
+    public class Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
                 : GameWindow(gameWindowSettings, nativeWindowSettings)
     {
         // Shapes
@@ -58,11 +57,13 @@ namespace U.src
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             // Draw U
+
             _u.Bind();
-            // Matrix4 transform = Matrix4.CreateRotationY((float)_timer.Elapsed.TotalSeconds);
+            Matrix4 modelMatrix = Matrix4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
+
             _u.ShaderProgram.SetInt("texture1", 0)
                             .SetMat4("transform", Matrix4.Identity)
-                            .SetMat4("model", Matrix4.Identity)
+                            .SetMat4("model", modelMatrix)
                             .SetMat4("view", _camera.GetViewMatrix())
                             .SetMat4("projection", _camera.GetProjectionMatrix());
             _u.Draw();
@@ -80,7 +81,7 @@ namespace U.src
             _crossHair.ShaderProgram.SetVec3("u_Color", new Vector3(1.0f, 1.0f, 1.0f));
             _crossHair.Draw();
 
-            SwapBuffers();
+            base.SwapBuffers();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

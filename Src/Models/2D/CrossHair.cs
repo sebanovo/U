@@ -1,6 +1,5 @@
 using System;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using U.Src.Utils;
 
 namespace U.Src.Models._2D;

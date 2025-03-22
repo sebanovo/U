@@ -1,10 +1,11 @@
 using U.src.Utils;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using U.Src.Utils;
 
 namespace U.Src.Models._3D;
 
-public class U
+public class U3D
 {
     public readonly Shader ShaderProgram;
     public readonly Texture TextureImage;
@@ -140,10 +141,38 @@ public class U
         0.2f,  1.0f, -0.2f,  0.0f, 1.0f,
     ];
 
-    public U()
+    public U3D()
     {
         ShaderProgram = new Shader("U.Resources.Shaders.uShape.vert", "U.Resources.Shaders.uShape.frag");
         TextureImage = new("U.Resources.Images.container.jpg");
+        CenterVertices();
+    }
+
+    public Vector3 CalculateCentroid()
+    {
+        float sumX = 0, sumY = 0, sumZ = 0;
+        int vertexCount = Vertices.Length / 5;
+
+        for (int i = 0; i < Vertices.Length; i += 5)
+        {
+            sumX += Vertices[i];
+            sumY += Vertices[i + 1];
+            sumZ += Vertices[i + 2];
+        }
+
+        return new Vector3(sumX / (float)vertexCount, sumY / vertexCount, sumZ / vertexCount);
+    }
+
+    void CenterVertices()
+    {
+        Vector3 centroid = CalculateCentroid();
+
+        for (int i = 0; i < Vertices.Length; i += 5)
+        {
+            Vertices[i] -= centroid.X;
+            Vertices[i + 1] -= centroid.Y + 0.15f;
+            Vertices[i + 2] -= centroid.Z;
+        }
     }
 
     public void Load()
@@ -173,7 +202,7 @@ public class U
 
     public void Draw()
     {
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3 * 36);
+        GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length / 5);
     }
 
     public void Dispose()
