@@ -2,6 +2,7 @@ using U.src.Utils;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using U.Src.Utils;
+using U.Properties;
 
 namespace U.Src.Models._3D;
 
@@ -143,8 +144,8 @@ public class U3D
 
     public U3D()
     {
-        ShaderProgram = new Shader("U.Resources.Shaders.uShape.vert", "U.Resources.Shaders.uShape.frag");
-        TextureImage = new("U.Resources.Images.container.jpg");
+        ShaderProgram = new Shader(Resources.Shader.uShapeVert, Resources.Shader.uShapeFrag);
+        TextureImage = new(Resources.Image.container);
         CenterVertices();
     }
 

@@ -48,6 +48,7 @@ namespace U.src
             _u.Load();
             _axis.Load();
             _crossHair.Load();
+
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
