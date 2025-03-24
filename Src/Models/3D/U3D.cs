@@ -160,7 +160,7 @@ public class U3D
             sumZ += Vertices[i + 2];
         }
 
-        return new Vector3(sumX / (float)vertexCount, sumY / vertexCount, sumZ / vertexCount);
+        return new Vector3(sumX / vertexCount, sumY / vertexCount, sumZ / vertexCount);
     }
 
     void CenterVertices()
@@ -202,8 +202,17 @@ public class U3D
 
     public void Draw(Vector3 position)
     {
-        Matrix4 modelMatrix = Matrix4.CreateTranslation(position);
-        ShaderProgram.SetMat4("model", modelMatrix);
+        float[] copiedVertices = [.. Vertices];
+        for (int i = 0; i < copiedVertices.Length; i += 5)
+        {
+            copiedVertices[i] += position.X;
+            copiedVertices[i + 1] += position.Y;
+            copiedVertices[i + 2] += position.Z;
+        }
+
+        GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+        GL.BufferData(BufferTarget.ArrayBuffer, copiedVertices.Length * sizeof(float), copiedVertices, BufferUsageHint.StaticDraw);
+
         GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length / 5);
     }
 
