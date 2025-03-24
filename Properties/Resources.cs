@@ -12,7 +12,7 @@ public class Resources
         {
             get
             {
-                return LoadEmbeddedShader("U.Resources.Images.awesomeface.png");
+                return LoadEmbeddedImage("U.Resources.Images.awesomeface.png");
             }
         }
 
@@ -20,7 +20,7 @@ public class Resources
         {
             get
             {
-                return LoadEmbeddedShader("U.Resources.Images.container.jpg");
+                return LoadEmbeddedImage("U.Resources.Images.container.jpg");
             }
         }
 
@@ -28,11 +28,11 @@ public class Resources
         {
             get
             {
-                return LoadEmbeddedShader("U.Resources.Images.texture.png");
+                return LoadEmbeddedImage("U.Resources.Images.texture.png");
             }
         }
 
-        private static ImageResult LoadEmbeddedShader(string textureResourceName)
+        private static ImageResult LoadEmbeddedImage(string textureResourceName)
         {
             Stream stream = Assembly.GetExecutingAssembly()?.GetManifestResourceStream(textureResourceName)
                             ?? throw new Exception($"Texture resource {textureResourceName} not found.");
