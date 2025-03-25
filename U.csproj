@@ -22,6 +22,7 @@
     <EmbeddedResource Include="Resources\Images\texture.png" />
     <EmbeddedResource Include="Resources\Images\container.jpg" />
     <EmbeddedResource Include="Resources\Images\awesomeface.png" />
+    <EmbeddedResource Include="Resources\Config\U.json" />
   </ItemGroup>
   
 </Project>

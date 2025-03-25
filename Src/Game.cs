@@ -8,6 +8,8 @@ using OpenTK.Graphics.OpenGL4;
 using U.Src.Models._2D;
 using U.Src.Models._3D;
 using U.Src.Utils;
+using U.Src.Graphics;
+using U.Properties;
 
 #pragma warning disable CS8618
 
@@ -17,7 +19,8 @@ namespace U.src
                 : GameWindow(gameWindowSettings, nativeWindowSettings)
     {
         // Shapes
-        U3D _u;
+        Entity _u1;
+        Entity _u2;
         CrossHair _crossHair;
         Axis _axis;
         // Camera
@@ -40,15 +43,27 @@ namespace U.src
             CursorState = CursorState.Grabbed;
 
             // Iniciatialize  Shapes
-            _u = new();
+            _u1 = new(Resources.Config.uShape,
+                      Resources.Shaders.uShapeVert,
+                      Resources.Shaders.uShapeFrag,
+                      Resources.Images.container,
+                      _camera
+            );
+            _u2 = new(Resources.Config.uShape,
+                      Resources.Shaders.uShapeVert,
+                      Resources.Shaders.uShapeFrag,
+                      Resources.Images.container,
+                      _camera
+            );
+
             _crossHair = new();
             _axis = new();
 
             // Load Shapes
-            _u.Load();
+            _u1.Load();
+            _u2.Load();
             _axis.Load();
             _crossHair.Load();
-
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -60,12 +75,8 @@ namespace U.src
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             // Draw U
-            _u.Bind();
-            _u.ShaderProgram.SetInt("texture1", 0)
-                            .SetMat4("model", Matrix4.Identity)
-                            .SetMat4("view", _camera.GetViewMatrix())
-                            .SetMat4("projection", _camera.GetProjectionMatrix());
-            _u.Draw(new Vector3(_x, _y, _z));
+            _u1.Draw(_x, _y, _z, 0);
+            _u1.Draw(1.0f, 1.0f, 0.0f, 0);
 
             // Draw Axis (xyz)
             _axis.Bind();
@@ -200,7 +211,8 @@ namespace U.src
         {
             base.OnUnload();
 
-            _u.Dispose();
+            _u1.Dispose();
+            _u2.Dispose();
             _axis.Dispose();
             _crossHair.Dispose();
 

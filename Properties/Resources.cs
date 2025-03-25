@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Text.Json;
 using StbImageSharp;
 
 namespace U.Properties;
@@ -94,6 +95,23 @@ public class Resources
         private static string LoadEmbeddedShader(string resourceName)
         {
 
+            Stream stream = (Assembly.GetExecutingAssembly()?.GetManifestResourceStream(resourceName)) ??
+                             throw new Exception($"Shader resource {resourceName} not found.");
+            StreamReader reader = new(stream);
+            return reader.ReadToEnd();
+        }
+    }
+    public static class Config
+    {
+        public static string uShape
+        {
+            get
+            {
+                return LoadEmbeddedConfig("U.Resources.Config.U.json");
+            }
+        }
+        private static string LoadEmbeddedConfig(string resourceName)
+        {
             Stream stream = (Assembly.GetExecutingAssembly()?.GetManifestResourceStream(resourceName)) ??
                              throw new Exception($"Shader resource {resourceName} not found.");
             StreamReader reader = new(stream);
