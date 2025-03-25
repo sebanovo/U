@@ -6,7 +6,7 @@ namespace U.Properties;
 
 public class Resources
 {
-    public class Image
+    public class Images
     {
         public static ImageResult awesomeface
         {
@@ -41,7 +41,7 @@ public class Resources
         }
     }
 
-    public static class Shader
+    public static class Shaders
     {
         public static string uShapeVert
         {

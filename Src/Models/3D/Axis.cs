@@ -25,7 +25,7 @@ public class Axis
 
     public Axis()
     {
-        ShaderProgram = new Shader(Resources.Shader.axisVert, Resources.Shader.axisFrag);
+        ShaderProgram = new Shader(Resources.Shaders.axisVert, Resources.Shaders.axisFrag);
     }
 
     public void Load()

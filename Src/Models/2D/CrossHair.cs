@@ -30,7 +30,7 @@ public class CrossHair
     public CrossHair()
     {
         _scaleX = 1.0f;
-        ShaderProgram = new Shader(Resources.Shader.crossHairVert, Resources.Shader.crossHairFrag);
+        ShaderProgram = new Shader(Resources.Shaders.crossHairVert, Resources.Shaders.crossHairFrag);
 
         Vertices = [
             // x

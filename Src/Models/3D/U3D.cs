@@ -144,8 +144,8 @@ public class U3D
 
     public U3D()
     {
-        ShaderProgram = new Shader(Resources.Shader.uShapeVert, Resources.Shader.uShapeFrag);
-        TextureImage = new(Resources.Image.container);
+        ShaderProgram = new Shader(Resources.Shaders.uShapeVert, Resources.Shaders.uShapeFrag);
+        TextureImage = new(Resources.Images.container);
         CenterVertices();
     }
 
