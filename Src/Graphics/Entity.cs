@@ -24,7 +24,8 @@ public class Entity
         TextureImage = new(textureImage);
         _camera = camera;
 
-        Shape? shape = JsonSerializer.Deserialize<Shape>(vertices);
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        Shape? shape = JsonSerializer.Deserialize<Shape>(vertices, options);
         if (shape == null || shape.Vertices == null) return;
         Vertices = [.. shape.Vertices];
         CenterVertices();
