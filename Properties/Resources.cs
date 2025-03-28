@@ -103,19 +103,55 @@ public class Resources
     }
     public static class Config
     {
-        public static string uShape
+        public static float[] uShape
         {
             get
             {
-                return LoadEmbeddedConfig("U.Resources.Config.U.json");
+                return LoadEmbeddedConfig("U.Resources.Config.U.jsonc");
             }
         }
-        private static string LoadEmbeddedConfig(string resourceName)
+
+        public static float[] cube
+        {
+            get
+            {
+                return LoadEmbeddedConfig("U.Resources.Config.Cube.jsonc");
+            }
+        }
+
+        public static float[] pyramid
+        {
+            get
+            {
+                return LoadEmbeddedConfig("U.Resources.Config.Pyramid.jsonc");
+            }
+        }
+
+        private class Json
+        {
+            public float[]? Vertices { get; set; }
+        }
+
+        private static float[] LoadEmbeddedConfig(string resourceName)
         {
             Stream stream = (Assembly.GetExecutingAssembly()?.GetManifestResourceStream(resourceName)) ??
                              throw new Exception($"Shader resource {resourceName} not found.");
             StreamReader reader = new(stream);
-            return reader.ReadToEnd();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                ReadCommentHandling = JsonCommentHandling.Skip
+            };
+
+            Json? shape = JsonSerializer.Deserialize<Json>(reader.ReadToEnd(), options)
+            ?? throw new Exception("No se pudo cargar deserializar el archivo: " + resourceName);
+
+            if (shape.Vertices == null)
+            {
+                throw new Exception("No se puedo cargar los vertices de: " + resourceName);
+            }
+            return [.. shape.Vertices];
         }
     }
 }

@@ -8,7 +8,6 @@ using OpenTK.Graphics.OpenGL4;
 using U.Src.Models._2D;
 using U.Src.Models._3D;
 using U.Src.Utils;
-using U.Src.Graphics;
 using U.Properties;
 
 #pragma warning disable CS8618
@@ -21,6 +20,8 @@ namespace U.src
         // Shapes
         Entity _u1;
         Entity _u2;
+        Entity _cube;
+        Entity _pyramid;
         CrossHair _crossHair;
         Axis _axis;
         // Camera
@@ -49,7 +50,22 @@ namespace U.src
                       Resources.Images.container,
                       _camera
             );
+
             _u2 = new(Resources.Config.uShape,
+                      Resources.Shaders.uShapeVert,
+                      Resources.Shaders.uShapeFrag,
+                      Resources.Images.container,
+                      _camera
+            );
+
+            _cube = new(Resources.Config.cube,
+                      Resources.Shaders.uShapeVert,
+                      Resources.Shaders.uShapeFrag,
+                      Resources.Images.container,
+                      _camera
+            );
+
+            _pyramid = new(Resources.Config.pyramid,
                       Resources.Shaders.uShapeVert,
                       Resources.Shaders.uShapeFrag,
                       Resources.Images.container,
@@ -62,6 +78,8 @@ namespace U.src
             // Load Shapes
             _u1.Load();
             _u2.Load();
+            _cube.Load();
+            _pyramid.Load();
             _axis.Load();
             _crossHair.Load();
         }
@@ -74,9 +92,11 @@ namespace U.src
             GL.ClearColor(backGroundColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            // Draw U
+            // Draw Entities
             _u1.Draw(_x, _y, _z, 0);
             _u1.Draw(1.0f, 1.0f, 0.0f, 0);
+            _cube.Draw(-1.0f, -1.0f, 0.0f, 0);
+            _pyramid.Draw(-1.0f, 1.0f, 0.0f, 0);
 
             // Draw Axis (xyz)
             _axis.Bind();
@@ -213,6 +233,8 @@ namespace U.src
 
             _u1.Dispose();
             _u2.Dispose();
+            _cube.Dispose();
+            _pyramid.Dispose();
             _axis.Dispose();
             _crossHair.Dispose();
 
